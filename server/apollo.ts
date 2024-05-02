@@ -1,5 +1,5 @@
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServer } from "apollo-server";
+
 import { json } from "body-parser";
 import express from "express";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -76,7 +76,7 @@ useServer({ schema }, wsServer);
 
 await server.start();
 
-server.logger.info("Apollo server started!");
+
 
 WebApp.connectHandlers.use(
   "/graphql", // Configure the path as you want.
