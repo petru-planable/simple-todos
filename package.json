@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.1",
+    "@apollo/server": "^4.10.4",
     "@babel/runtime": "^7.23.5",
     "@graphql-tools/graphql-file-loader": "^8.0.1",
     "@graphql-tools/load": "^8.0.2",
     "@graphql-tools/schema": "^10.0.3",
-    "apollo-server": "^2.26.2",
     "cors": "^2.8.5",
     "graphql": "^16.8.1",
     "graphql-redis-subscriptions": "^2.6.0",
