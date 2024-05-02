@@ -1,0 +1,44 @@
+{
+  "name": "simple-todos",
+  "private": true,
+  "scripts": {
+    "start": "meteor run --settings settings.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.10.1",
+    "@babel/runtime": "^7.23.5",
+    "@graphql-tools/graphql-file-loader": "^8.0.1",
+    "@graphql-tools/load": "^8.0.2",
+    "@graphql-tools/schema": "^10.0.3",
+    "apollo-server": "^2.26.2",
+    "cors": "^2.8.5",
+    "graphql": "^16.8.1",
+    "graphql-redis-subscriptions": "^2.6.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.16.0",
+    "meteor-node-stubs": "^1.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "safe-json-stringify": "^1.2.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^18.16.5",
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.4",
+    "@types/ws": "^8.5.10",
+    "babel-plugin-inline-import": "^3.0.0",
+    "typescript": "^4.9.5"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.tsx",
+      "server": "server/main.ts"
+    },
+    "testModule": "tests/main.ts"
+  }
+}

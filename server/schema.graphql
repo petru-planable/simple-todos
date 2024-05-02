@@ -1,0 +1,11 @@
+type Book {
+  _id: String
+  title: String # returns a String
+  author: Author # returns an Author
+}
+
+type Author {
+  _id: String
+  name: String
+  books: [Book]
+}

@@ -1,0 +1,14 @@
+{
+    "presets": ["react"],
+    "plugins": [
+      "lodash", 
+      [
+        "babel-plugin-inline-import"
+      ]
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+      }
+    }
+  }
