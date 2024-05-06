@@ -1,5 +1,5 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useSubscription } from "@apollo/client";
 import { Book } from "../api/books";
 
 const getBooks = gql`
@@ -11,25 +11,62 @@ const getBooks = gql`
   }
 `;
 
+const booksSub = gql`
+  subscription BookCreated {
+    bookCreated {
+      _id
+      title
+      author {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 export const Info = () => {
-  const { loading, error, data } = useQuery(getBooks);
+  const [books, setBooks] = React.useState<Book[]>([]);
+
+  const { loading, error, data } = useQuery(getBooks, {
+    onCompleted: (data) => {
+      setBooks(data.books);
+    },
+  });
+
+  const {
+    data: subData,
+    loading: subLoading,
+    error: subError,
+  } = useSubscription(booksSub, {
+    onData: (subD) => {
+      // TODO: refactor this variable name .....
+      setBooks([subD.data?.data?.bookCreated, ...books]);
+    },
+  });
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  console.log(data);
+  // if (subLoading) {
+  //   return <div>Subscription loading...</div>;
+  // }
 
   if (error) {
     console.log(`full error: `, error);
     return <p>Error: {error.message}</p>;
   }
 
+  if (subError) {
+    console.log(`full sub error: `, subError);
+    return <p>Subscription error: {subError.message}</p>;
+  }
+
   const makeBook = (book: Book) => {
     return (
       <li key={book._id}>
         <a href={book.title} target="_blank">
-          {book.author?.name}
+          {book.title}
         </a>
       </li>
     );
@@ -38,7 +75,7 @@ export const Info = () => {
   return (
     <div>
       <h2>Learn Meteor!</h2>
-      <ul>{data.books?.map(makeBook)}</ul>
+      <ul>{books.map(makeBook)}</ul>
     </div>
   );
 };

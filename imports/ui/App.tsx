@@ -11,44 +11,12 @@ import { createClient } from "graphql-ws";
 
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-// const client = new ApolloClient({
-//   uri: "http://localhost:3000/graphql",
-//   cache: new InMemoryCache(),
-//   credentials: "same-origin"
-// });
 
 const wsLink = new GraphQLWsLink(
-  // createClient({ url: "ws://localhost:3000/subscriptions" })
-  createClient({
-    url: "ws://localhost:3000/graphql",
-    lazy: true,
-  })
+  createClient({ url: "ws://localhost:3000/graphql", lazy: true })
 );
 
 const httpLink = createHttpLink({ uri: "/graphql" });
-
-// wsLink.subscriptionClient.on("connecting", () => {
-//   console.log("connecting");
-// });
-
-// wsLink.subscriptionClient.on("connected", () => {
-//   console.log("connected");
-// });
-
-// wsLink.subscriptionClient.on("reconnecting", () => {
-//   console.log("reconnecting");
-// });
-
-// wsLink.subscriptionClient.on("reconnected", () => {
-//   console.log("reconnected");
-// });
-
-// wsLink.subscriptionClient.on("disconnected", () => {
-//   console.log("disconnected");
-// });
-
-// wsLink.subscriptionClient.maxConnectTimeGenerator.duration = () =>
-//   wsLink.subscriptionClient.maxConnectTimeGenerator.max;
 
 // const token = retrieveData('AUTH_TOKEN');
 const token = "AUTH_TOKEN";
@@ -76,17 +44,10 @@ const splitLink = split(
 
 // Apollo Client instance
 const client = new ApolloClient({
-  link: httpLink,
+  link: splitLink,
   cache: new InMemoryCache({ addTypename: false }),
-  ssrMode: typeof window === "undefined",
   connectToDevTools: true,
 });
-
-// const client = new ApolloClient({
-//   uri: 'http://localhost:3000/',
-//   cache: new InMemoryCache(),
-//   link: authLink.concat(httpLink)
-// });
 
 import { Hello } from "./Hello";
 import { Info } from "./Info";
