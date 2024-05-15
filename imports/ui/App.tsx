@@ -8,9 +8,9 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
-
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const wsLink = new GraphQLWsLink(
   createClient({ url: "ws://localhost:3000/graphql", lazy: true })
@@ -51,13 +51,27 @@ const client = new ApolloClient({
 
 import { Hello } from "./Hello";
 import { Info } from "./Info";
+import { InfoMeteor } from "./InfoMeteor";
 
-export const App = () => (
-  <div>
-    <h1>Welcome to Meteor with Apollo</h1>
-    <ApolloProvider client={client}>
-      <Hello />
-      <Info />
-    </ApolloProvider>
-  </div>
-);
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div>
+                Welcome to Meteor with Apollo
+                <Hello />
+              </div>
+            }
+          />
+          <Route path="/books" element={<Info />} />
+          <Route path="/books-meteor" element={<InfoMeteor />} />
+          <Route path="/about" element={<div>About page</div>} />
+        </Routes>
+      </ApolloProvider>
+    </BrowserRouter>
+  );
+};

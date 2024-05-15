@@ -82,3 +82,47 @@ WebApp.httpServer.on("upgrade", function upgrade(request, socket, head) {
       break;
   }
 });
+
+
+// auth demo 
+/* 
+
+WebApp.connectHandlers.use("/api", async (req, res, next) => {
+	// Extract the Authorization header
+	const authHeader = req.headers.authorization;
+
+	if (authHeader && authHeader.startsWith("Bearer ")) {
+		const token = authHeader.slice(7); // Remove "Bearer " from the start
+
+		const hashedToken = Accounts._hashLoginToken(token);
+
+		// Find the user by the token
+		const user = await Meteor.users.findOneAsync({
+			"services.resume.loginTokens.hashedToken": hashedToken,
+		});
+
+		if (user) {
+			// Attach user information to the request object
+			req.user = user;
+			req.userId = user._id;
+
+			// Proceed to the next handler/middleware
+			next();
+		} else {
+			// Authentication failed
+			res.writeHead(401);
+			res.writeHead(500, { "Content-Type": "application/json" });
+			res.end(
+				JSON.stringify({
+					status: "error",
+					message: "Authentication failed",
+				}),
+			);
+		}
+	} else {
+		// No or improperly formatted Authorization header present
+		next();
+	}
+});
+
+*/
