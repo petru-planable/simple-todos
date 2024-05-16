@@ -1,6 +1,7 @@
 import React from "react";
-import { gql, useQuery, useSubscription } from "@apollo/client";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { Book } from "../api/books";
+import { CreateBook } from "./createBook";
 
 const getBooks = gql`
   query books {
@@ -23,6 +24,19 @@ const booksSub = gql`
     }
   }
 `;
+const removedBookSub = gql`
+  subscription BookRemoved {
+    bookRemoved {
+      _id
+    }
+  }
+`;
+
+const REMOVE_BOOK = gql`
+  mutation removeBook($id: String!) {
+    removeBook(id: $id)
+  }
+`;
 
 export const Info = () => {
   const [books, setBooks] = React.useState<Book[]>([]);
@@ -30,6 +44,17 @@ export const Info = () => {
   const { loading, error, data } = useQuery(getBooks, {
     onCompleted: (data) => {
       setBooks(data.books);
+    },
+  });
+  const [
+    removeBook,
+    { data: _data, loading: loadingRemove, error: errorRemove },
+  ] = useMutation(REMOVE_BOOK, {
+    refetchQueries: [
+      "books", // Query name // lucreaza doar ca noi nu folosim direct useQuery data, dar useState
+    ],
+    onCompleted: (count) => {
+      console.log(`removed count: `, count);
     },
   });
 
@@ -44,13 +69,18 @@ export const Info = () => {
     },
   });
 
+  // Remove through subscription
+  useSubscription(removedBookSub, {
+    onData: (subD) => {
+      setBooks(
+        books.filter((book) => book._id !== subD.data?.data?.bookRemoved._id)
+      );
+    },
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  // if (subLoading) {
-  //   return <div>Subscription loading...</div>;
-  // }
 
   if (error) {
     console.log(`full error: `, error);
@@ -68,14 +98,25 @@ export const Info = () => {
         <a href={book.title} target="_blank">
           {book.title}
         </a>
+        <button
+          style={{ marginLeft: "10px" }}
+          className="btn"
+          onClick={() => removeBook({ variables: { id: book._id } })}
+        >
+          Remove
+          {loadingRemove && <p>Removing...</p>}
+          {errorRemove && <p>Error removing: {errorRemove.message}</p>}
+        </button>
       </li>
     );
   };
 
   return (
     <div>
-      <h2>Learn Meteor!</h2>
+      <h2>Good GraphQL!</h2>
       <ul>{books.map(makeBook)}</ul>
+
+      <CreateBook />
     </div>
   );
 };

@@ -29,10 +29,12 @@ export const typeDefs = `#graphql
         createBook(title: String, author: AuthorInput): Book
         updateTitle(id: String, newTitle: String): Book
         updateBook(id: String, input: BookInput): Book
+        removeBook(id: String): String # returns deleted book id
     }
 
     type Subscription {
         bookCreated: Book
         bookUpdated: Book
+        bookRemoved: Book
     }
 `;

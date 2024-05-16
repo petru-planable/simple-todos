@@ -23,10 +23,12 @@ export const booksMutations = {
       { $set: { title: args?.newTitle } }
     );
 
-      getRedisPusher().publish(
-        `userModified`,
-        safeJsonStringify({ userModified: { profile: { name: args?.profileName } } })
-      );
+    getRedisPusher().publish(
+      `userModified`,
+      safeJsonStringify({
+        userModified: { profile: { name: args?.profileName } },
+      })
+    );
 
     return BooksCollection.findOneAsync({ _id: args?.id });
   },
@@ -43,5 +45,18 @@ export const booksMutations = {
     );
 
     return BooksCollection.findOneAsync({ _id: args?.id });
+  },
+
+  removeBook: async (_, args) => {
+    const response = await BooksCollection.removeAsync({ _id: args?.id });
+
+
+    
+    getRedisPusher().publish(
+      `bookRemoved`,
+      safeJsonStringify({ bookRemoved: { _id: args?.id } })
+    );
+
+    return response;
   },
 };

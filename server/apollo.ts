@@ -6,9 +6,7 @@ import { bookResolvers } from "./resolvers/books";
 import { typeDefs } from "./schemas/schema";
 import { booksSubscriptions } from "./subscriptions/books";
 import { useServer } from "graphql-ws/lib/use/ws";
-
 import { ApolloServer } from "@apollo/server";
-
 import cors from "cors"; //cross-origin-resource sharing
 import { WebSocketServer } from "ws";
 import { makeExecutableSchema } from "@graphql-tools/schema";
@@ -83,8 +81,7 @@ WebApp.httpServer.on("upgrade", function upgrade(request, socket, head) {
   }
 });
 
-
-// auth demo 
+// auth demo
 /* 
 
 WebApp.connectHandlers.use("/api", async (req, res, next) => {

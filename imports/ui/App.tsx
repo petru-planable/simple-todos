@@ -50,8 +50,8 @@ const client = new ApolloClient({
 });
 
 import { Hello } from "./Hello";
-import { Info } from "./Info";
-import { InfoMeteor } from "./InfoMeteor";
+import { Info } from "./Books";
+import { InfoMeteor } from "./BooksMeteor";
 
 export const App = () => {
   return (

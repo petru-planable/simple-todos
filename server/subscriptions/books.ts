@@ -15,4 +15,9 @@ export const booksSubscriptions = {
       return redisPubSub.asyncIterator("bookUpdated");
     },
   },
+  bookRemoved: {
+    subscribe: () => {
+      return redisPubSub.asyncIterator("bookRemoved");
+    },
+  },
 };

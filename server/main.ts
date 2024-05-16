@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Link, LinksCollection } from "/imports/api/links";
-import './apollo'
+import "./apollo";
+import "./meteorStuff";
 
 async function insertLink({ title, url }: Pick<Link, "title" | "url">) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -32,8 +33,5 @@ Meteor.startup(async () => {
 
   // import { ApolloServer } from "apollo-server";
 
-  // await 
-
+  // await
 });
-
-
