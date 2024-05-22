@@ -12,6 +12,10 @@ import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import { Hello } from "./Hello";
+import { Books } from "./Books";
+import { BooksMeteor } from "./BooksMeteor";
+
 const wsLink = new GraphQLWsLink(
   createClient({ url: "ws://localhost:3000/graphql", lazy: true })
 );
@@ -49,9 +53,6 @@ const client = new ApolloClient({
   connectToDevTools: true,
 });
 
-import { Hello } from "./Hello";
-import { Info } from "./Books";
-import { InfoMeteor } from "./BooksMeteor";
 
 export const App = () => {
   return (
@@ -67,8 +68,8 @@ export const App = () => {
               </div>
             }
           />
-          <Route path="/books" element={<Info />} />
-          <Route path="/books-meteor" element={<InfoMeteor />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/books-meteor" element={<BooksMeteor />} />
           <Route path="/about" element={<div>About page</div>} />
         </Routes>
       </ApolloProvider>

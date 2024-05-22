@@ -1,16 +1,17 @@
 import React from "react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { Book } from "../api/books";
 import { CreateBook } from "./createBook";
+import { graphql } from "/imports/gql";
+import { Book } from "/type-defs";
 
-const getBooks = gql`
+const getBooks = graphql(`
   query books {
     books {
       _id
       title
     }
   }
-`;
+`);
 
 const booksSub = gql`
   subscription BookCreated {
@@ -24,6 +25,7 @@ const booksSub = gql`
     }
   }
 `;
+
 const removedBookSub = gql`
   subscription BookRemoved {
     bookRemoved {
@@ -38,12 +40,14 @@ const REMOVE_BOOK = gql`
   }
 `;
 
-export const Info = () => {
+export const Books = () => {
   const [books, setBooks] = React.useState<Book[]>([]);
 
   const { loading, error, data } = useQuery(getBooks, {
     onCompleted: (data) => {
-      setBooks(data.books);
+      if (data.books) {
+        setBooks(data.books);
+      }
     },
   });
   const [
@@ -95,7 +99,7 @@ export const Info = () => {
   const makeBook = (book: Book) => {
     return (
       <li key={book._id}>
-        <a href={book.title} target="_blank">
+        <a href={book.title || ""} target="_blank">
           {book.title}
         </a>
         <button

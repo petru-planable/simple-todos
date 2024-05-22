@@ -3,7 +3,7 @@ import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
 import { Book, BooksCollection } from "../api/books";
 
-export const InfoMeteor = () => {
+export const BooksMeteor = () => {
   let booksSize = 0;
   const [loading, setLoading] = React.useState(true);
 
@@ -15,7 +15,7 @@ export const InfoMeteor = () => {
     // when your component is unmounted or deps change.
 
     const sub = Meteor.subscribe("books");
-    
+
     if (sub.ready()) {
       setLoading(false);
     }

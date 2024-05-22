@@ -50,8 +50,6 @@ export const booksMutations = {
   removeBook: async (_, args) => {
     const response = await BooksCollection.removeAsync({ _id: args?.id });
 
-
-    
     getRedisPusher().publish(
       `bookRemoved`,
       safeJsonStringify({ bookRemoved: { _id: args?.id } })

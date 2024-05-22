@@ -29,7 +29,9 @@ export const CreateBook = () => {
         >
           <input
             ref={(node) => {
-              input = node;
+              if (node?.value) {
+                input = { value: node.value };
+              }
             }}
           />
           <button type="submit">Create Book</button>
